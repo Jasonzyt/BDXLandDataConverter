@@ -356,7 +356,7 @@ int main(int argc, char** argv)
 			}
 			i++;
 		});
-	d.AddMember("Land", val, alloc);
+	d.AddMember("Lands", val, alloc);
 	StringBuffer buf;
 	PrettyWriter<StringBuffer> writer(buf);
 	d.Accept(writer);
