@@ -11,7 +11,7 @@
 #include <leveldb\iterator.h>
 #include <leveldb\filter_policy.h>
 #include <rapidjson/document.h>
-#include <rapidjson/prettywriter.h>
+#include <rapidjson/writer.h>
 #include <rapidjson/stringbuffer.h>
 #pragma warning(disable:4996)
 #undef min
@@ -249,7 +249,7 @@ bool HasPermission(LandPerm perm, LandPerm val)
 int main(int argc, char** argv)
 {
 	string input_path, output_path;
-	printf("BDXLand数据库转换器 v1.0.0 Author: Jasonzyt(Supported by Shad0w23333)\n");
+	printf("BDXLand数据库转换器 v1.0.1 Author: Jasonzyt(Supported by Shad0w23333)\n");
 	printf("目前只支持BDXLand转换PFEssentials!\n\n");
 	if (argc == 3)
 	{
@@ -335,8 +335,8 @@ int main(int argc, char** argv)
 						default_perm.AddMember("DestroyBlock", false, alloc);
 				}
 				
-				if (owner_sz > 0) data.AddMember("Owner", Value().SetString(to_string(fl->owner[0]).c_str(), alloc), alloc);
-				data.AddMember("Type", Value().SetString("2D", alloc), alloc);
+				if (owner_sz > 0) data.AddMember("PlayerXuid", Value().SetString(to_string(fl->owner[0]).c_str(), alloc), alloc);
+				data.AddMember("LandType", Value().SetString("2D", alloc), alloc);
 				data.AddMember("PlayerShared", shared_player, alloc);
 				data.AddMember("Dimension", fl->dim, alloc);
 				data.AddMember("X1", p_x, alloc);
@@ -358,7 +358,7 @@ int main(int argc, char** argv)
 		});
 	d.AddMember("Lands", val, alloc);
 	StringBuffer buf;
-	PrettyWriter<StringBuffer> writer(buf);
+	Writer<StringBuffer> writer(buf);
 	d.Accept(writer);
 	FILE* fp = fopen(output_path.c_str(), "w+");
 	fseek(fp, 0, 0);
